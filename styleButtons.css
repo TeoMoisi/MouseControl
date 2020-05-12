@@ -1,0 +1,17 @@
+.generalButtons {
+    background-color: white;
+/*    border-radius: 5px;
+    padding: 4px;*/
+    font-weight: bold;
+    color: black;
+    width: 150px;
+}
+
+.generalButtons:hover {
+    color: white;
+    background: black;
+}
+
+/*#firstButton {
+    top: 20px;
+}*/
