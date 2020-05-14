@@ -31,7 +31,7 @@ class DetectMoves:
                 if leftEAR < self.constants.EYE_AR_THRESH:
                     self.constants.WINK_COUNTER += 1
                     if self.constants.WINK_COUNTER > self.constants.WINK_CONSECUTIVE_FRAMES:
-                        pag.doubleClick(button='left')
+                        pag.click(button='left')
                         self.constants.WINK_COUNTER = 0
             else:
                 self.constants.WINK_COUNTER = 0

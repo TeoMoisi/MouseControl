@@ -33,6 +33,7 @@ class Capture():
         self.constants = Constants()
         self.INPUT_MODE = False
         self.SCROLL_MODE = False
+        self.landmarks_on = True
 
     def showLandmarks(self, frame):
         frame = imutils.resize(frame, width=self.constants.CAM_W, height=self.constants.CAM_H)
@@ -74,13 +75,15 @@ class Capture():
             leftEyeHull = cv2.convexHull(leftEye)
             rightEyeHull = cv2.convexHull(rightEye)
             noseHull = cv2.convexHull(nose)
-            cv2.drawContours(frame, [mouthHull], -1, self.constants.YELLOW_COLOR, 1)
-            cv2.drawContours(frame, [leftEyeHull], -1, self.constants.YELLOW_COLOR, 1)
-            cv2.drawContours(frame, [rightEyeHull], -1, self.constants.YELLOW_COLOR, 1)
-            cv2.drawContours(frame, [noseHull], -1, self.constants.YELLOW_COLOR, 1)
 
-            for (x, y) in np.concatenate((mouth, leftEye, rightEye, nose), axis=0):
-                cv2.circle(frame, (x, y), 2, self.constants.GREEN_COLOR, -1)
+            if (self.landmarks_on):
+                cv2.drawContours(frame, [mouthHull], -1, self.constants.YELLOW_COLOR, 1)
+                cv2.drawContours(frame, [leftEyeHull], -1, self.constants.YELLOW_COLOR, 1)
+                cv2.drawContours(frame, [rightEyeHull], -1, self.constants.YELLOW_COLOR, 1)
+                cv2.drawContours(frame, [noseHull], -1, self.constants.YELLOW_COLOR, 1)
+
+                for (x, y) in np.concatenate((mouth, leftEye, rightEye, nose), axis=0):
+                    cv2.circle(frame, (x, y), 2, self.constants.GREEN_COLOR, -1)
 
             #self.movesDetector.detectBlink(leftEye, rightEye)
             #self.SCROLL_MODE = self.movesDetector.detectScroll(self.SCROLL_MODE)
@@ -148,6 +151,12 @@ class Capture():
         cv2.destroyAllWindows()
         cap.release()
         QApplication.quit()
+
+    def hideLandmarks(self, checkBox):
+       if checkBox.isChecked():
+           self.landmarks_on = False
+       else:
+           self.landmarks_on = True
 
 
 class MainWindow(QWidget):
@@ -264,7 +273,6 @@ class MainWindow(QWidget):
     def startVideo(self):
         VideoHandler(self.rightLayout)
 
-
     def initUI(self):
         hbox = QHBoxLayout(self)
         splitter1 = QSplitter(self)
@@ -311,6 +319,11 @@ class MainWindow(QWidget):
         self.quit_button.setProperty('class', 'generalButtons')
         self.gridLayout.addWidget(self.quit_button)
 
+        self.checkBox = QCheckBox("Hide landmarks", self)
+        self.checkBox.setChecked(False)
+        self.checkBox.stateChanged.connect(lambda:self.capture.hideLandmarks(self.checkBox))
+        self.gridLayout.addWidget(self.checkBox)
+
         self.leftLayout.addLayout(self.gridLayout)
 
         splitter1.addWidget(left)
@@ -321,7 +334,6 @@ class MainWindow(QWidget):
 
         self.setLayout(hbox)
         self.show()
-
 
 
 if __name__ == '__main__':
