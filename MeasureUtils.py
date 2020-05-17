@@ -20,6 +20,15 @@ class MeasureUtils:
             # Return the eye aspect ratio
         return ear
 
+    def measureCosin(self, eye):
+        a = np.linalg.norm(eye[2] - eye[4])
+        b = np.linalg.norm(eye[3] - eye[4])
+        c = np.linalg.norm(eye[2] - eye[3])
+
+        cosinA = (c*c + b*b - a*a) / (2 * c * b)
+        return cosinA
+
+
     def direction(self, nose_point, anchor_point, w, h, multiple=1):
         nx, ny = nose_point
         x, y = anchor_point

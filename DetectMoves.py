@@ -15,20 +15,28 @@ class DetectMoves:
     def detectBlink(self, leftEye, rightEye):
         leftEAR = self.measureUtils.eye_aspect_ratio(leftEye)
         rightEAR = self.measureUtils.eye_aspect_ratio(rightEye)
+        rightCosin = self.measureUtils.measureCosin(rightEye)
+        leftCosin = self.measureUtils.measureCosin(leftEye)
         self.EAR = (leftEAR + rightEAR) / 2.0
         self.diff_ear = np.abs(leftEAR - rightEAR)
 
         if self.diff_ear > self.constants.WINK_AR_DIFF_THRESH:
             if leftEAR > rightEAR:
-                if rightEAR < self.constants.EYE_AR_THRESH:
+                if rightCosin >= 0.82:
+                    print("Cosin right", rightCosin)
                     self.constants.WINK_COUNTER += 1
+#                if rightEAR < self.constants.EYE_AR_THRESH:
+#                    print("Cosin right", rightCosin)
+#                    self.constants.WINK_COUNTER += 1
+
 
                     if self.constants.WINK_COUNTER > self.constants.WINK_CONSECUTIVE_FRAMES:
                         pag.click(button='right')
                         self.constants.WINK_COUNTER = 0
 
             elif leftEAR < rightEAR:
-                if leftEAR < self.constants.EYE_AR_THRESH:
+                if leftCosin >= 0.82 :
+                #if leftEAR < self.constants.EYE_AR_THRESH:
                     self.constants.WINK_COUNTER += 1
                     if self.constants.WINK_COUNTER > self.constants.WINK_CONSECUTIVE_FRAMES:
                         pag.click(button='left')

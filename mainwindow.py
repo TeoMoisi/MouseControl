@@ -24,7 +24,7 @@ class Capture():
     def __init__(self):
         self.capturing = False
         self.c = cv2.VideoCapture(0)
-        self.shape_predictor = "/Users/teofanamoisi/Desktop/LandmarksTrain/predictorMax.dat"
+        self.shape_predictor = "/Users/teofanamoisi/Desktop/TrainShapePredictor/predictorMax.dat"
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(self.shape_predictor)
         self.movesDetector = DetectMoves()
@@ -41,7 +41,6 @@ class Capture():
 
         # Detect faces in the grayscale frame
         rects = self.detector(gray, 0)
-        print(len(rects))
 
         # Loop over the face detections
         if len(rects) > 0:
@@ -85,9 +84,6 @@ class Capture():
                 for (x, y) in np.concatenate((mouth, leftEye, rightEye, nose), axis=0):
                     cv2.circle(frame, (x, y), 2, self.constants.GREEN_COLOR, -1)
 
-            #self.movesDetector.detectBlink(leftEye, rightEye)
-            #self.SCROLL_MODE = self.movesDetector.detectScroll(self.SCROLL_MODE)
-            #print(self.SCROLL_MODE)
             if self.INPUT_MODE:
                 cv2.putText(frame, "Face detected! You can start to control your cursor.", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.constants.RED_COLOR, 2)
                 x, y = self.constants.ANCHOR_POINT
