@@ -19,6 +19,7 @@ from MeasureUtils import MeasureUtils
 from Constants import Constants
 from VideoWindow import VideoWindow
 from VideoHandler import VideoHandler
+from PyQt5 import QtGui
 
 class Capture():
     def __init__(self):
@@ -93,6 +94,7 @@ class Capture():
                 cv2.line(frame, self.constants.ANCHOR_POINT, nose_point, self.constants.BLUE_COLOR, 2)
 
                 self.movesDetector.detectBlink(leftEye, rightEye)
+
                 self.SCROLL_MODE = self.movesDetector.detectScroll(self.SCROLL_MODE, mouth)
 
                 dir = self.measureUtils.direction(nose_point, (x, y), self.constants.WIDTH, self.constants.HEIGHT)
@@ -111,6 +113,7 @@ class Capture():
                         pag.scroll(-20)
                     else:
                         pag.moveRel(0, self.constants.DRAG_MOTION)
+
 
             if self.SCROLL_MODE:
                 cv2.putText(frame, 'SCROLL MODE IS ON!', (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.constants.RED_COLOR, 2)
@@ -159,9 +162,8 @@ class MainWindow(QWidget):
     def __init__(self):
         QWidget.__init__(self)
 
-        self.setWindowTitle('Menu')
-        self.setStyleSheet("background-color: #F0F8FF;")
-        #self.th = Thread(self)
+        self.setWindowTitle('Facial Cursor')
+        self.setWindowIcon(QtGui.QIcon("/Users/teofanamoisi/Desktop/icon.png"))
         self.initUI()
 
     def startDemo(self):
@@ -276,49 +278,63 @@ class MainWindow(QWidget):
 
         left = QFrame(splitter1)
         left.setFrameShape(QFrame.StyledPanel)
-        left.setMaximumWidth(150)
+        left.setMaximumWidth(200)
+        left.setMinimumWidth(150)
+        left.setStyleSheet("background-color: #a3c2c2; border: none; border-radius: 5px;")
+
+        iconLabel = QLabel(left)
+        pixmap = QPixmap("/Users/teofanamoisi/Desktop/icon.png")
+        iconLabel.setPixmap(pixmap.scaledToWidth(150))
+        iconLabel.resize(150, 50)
+
 
         self.leftLayout = QHBoxLayout(left)
         self.gridLayout = QGridLayout()
 
         right = QFrame(splitter1)
         right.setFrameShape(QFrame.StyledPanel)
-        right.setStyleSheet("background-color: grey;")
+        right.setStyleSheet("background-color: white; border: none; border-radius: 5px;")
 
         self.rightLayout = QHBoxLayout(right)
 
         #add buttons
         self.capture = Capture()
         self.start_button = QPushButton('Start', left)
+        self.start_button.resize(150, 50)
+        self.start_button.move(0, 50)
         self.start_button.clicked.connect(self.capture.startCapture)
         self.start_button.setStyleSheet(open('styleButtons.css').read())
         self.start_button.setObjectName('firstButton')
         self.start_button.setProperty('class', 'generalButtons')
-        self.gridLayout.addWidget(self.start_button)
+        #self.gridLayout.addWidget(self.start_button)
+        #self.start_button.resize(150, 50)
 
-        self.demo_button = QPushButton('Demo', left)
-        self.demo_button.clicked.connect(self.startDemo)
-        self.demo_button.setStyleSheet(open('styleButtons.css').read())
-        self.demo_button.setObjectName('firstButton')
-        self.demo_button.setProperty('class', 'generalButtons')
-        self.gridLayout.addWidget(self.demo_button)
+        self.startDemo()
 
-        self.end_button =QPushButton('End', self)
+        self.end_button = QPushButton('End', left)
         self.end_button.clicked.connect(self.capture.endCapture)
+        self.end_button.resize(150, 50)
+        self.end_button.move(0, 100)
         self.end_button.setStyleSheet(open('styleButtons.css').read())
         self.end_button.setProperty('class', 'generalButtons')
-        self.gridLayout.addWidget(self.end_button)
+        self.end_button.setProperty('id', 'endID')
+        #self.gridLayout.addWidget(self.end_button)
 
-        self.quit_button = QPushButton('Quit', self)
+        self.quit_button = QPushButton('Quit', left)
         self.quit_button.clicked.connect(self.capture.quitCapture)
+        self.quit_button.resize(150, 50)
+        self.quit_button.move(0, 150)
         self.quit_button.setStyleSheet(open('styleButtons.css').read())
         self.quit_button.setProperty('class', 'generalButtons')
-        self.gridLayout.addWidget(self.quit_button)
+        self.quit_button.setProperty('id', 'quitID')
+        #self.gridLayout.addWidget(self.quit_button, 150, 50)
 
-        self.checkBox = QCheckBox("Hide landmarks", self)
+        self.checkBox = QCheckBox("Hide landmarks", left)
         self.checkBox.setChecked(False)
+        self.checkBox.resize(150, 50)
+        self.checkBox.move(0, 250)
         self.checkBox.stateChanged.connect(lambda:self.capture.hideLandmarks(self.checkBox))
-        self.gridLayout.addWidget(self.checkBox)
+        #self.gridLayout.addWidget(self.checkBox)
 
         self.leftLayout.addLayout(self.gridLayout)
 
@@ -335,4 +351,5 @@ class MainWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
+    window.setStyleSheet("background-color: #F7F4F2;")
     sys.exit(app.exec_())

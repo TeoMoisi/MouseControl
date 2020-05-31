@@ -31,10 +31,10 @@ class Constants:
 
         #ar
         self.EYE_AR_THRESH = 0.19
-        self.EYE_AR_CONSECUTIVE_FRAMES = 15
+        self.EYE_AR_CONSECUTIVE_FRAMES = 10
         self.WINK_AR_DIFF_THRESH = 0.00
         self.WINK_AR_CLOSE_THRESH = 0.19
-        self.WINK_CONSECUTIVE_FRAMES = 7
+        self.WINK_CONSECUTIVE_FRAMES = 3
         self.WINK_COUNTER = 0
         self.SCROLL_MODE = False
         self.EYE_COUNTER = 0
