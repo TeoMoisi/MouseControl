@@ -4,7 +4,6 @@ from Constants import Constants
 import numpy as np
 import pyautogui as pag
 import cv2
-#from beeply import notes
 import sys
 import os
 
@@ -59,8 +58,6 @@ class DetectMoves:
             print("Cosinus diff", self.diff_cos)
             if leftEAR > rightEAR:
                 if rightCosin >= 0.82 and leftCosin < 0.82:
-                    #print("Cosin left", leftCosin)
-                    #print("Cosin right", rightCosin)
                     self.constants.WINK_COUNTER += 1
 
                     if self.constants.WINK_COUNTER > self.constants.WINK_CONSECUTIVE_FRAMES:

@@ -17,7 +17,7 @@ class Constants:
         self.mStart = mStart
         self.mEnd = mEnd
 
-        #colours
+        # colours
         self.WHITE_COLOR = (255, 255, 255)
         self.YELLOW_COLOR = (0, 255, 255)
         self.RED_COLOR = (0, 0, 255)
@@ -25,11 +25,11 @@ class Constants:
         self.BLUE_COLOR = (255, 0, 0)
         self.BLACK_COLOR = (0, 0, 0)
 
-        #camera dimensions
+        # camera dimensions
         self.CAM_W = 640
         self.CAM_H = 480
 
-        #ar
+        # ar
         self.EYE_AR_THRESH = 0.19
         self.EYE_AR_CONSECUTIVE_FRAMES = 10
         self.WINK_AR_DIFF_THRESH = 0.00
@@ -39,15 +39,15 @@ class Constants:
         self.SCROLL_MODE = False
         self.EYE_COUNTER = 0
 
-        #rectangle Constants
+        # rectangle Constants
         self.WIDTH = 50
         self.HEIGHT = 35
-        self.ANCHOR_POINT = (int(self.CAM_W / 2),int(self.CAM_H / 2))
+        self.ANCHOR_POINT = (int(self.CAM_W / 2), int(self.CAM_H / 2))
 
-        #cursor settings
+        # cursor settings
         self.DRAG_MOTION = 20
 
-        #mouth
+        # mouth
         self.MOUTH_AR_THRESH = 0.25
         self.MOUTH_AR_CONSECUTIVE_FRAMES = 15
         self.MOUTH_COUNTER = 0
