@@ -127,69 +127,20 @@ class MainWindow(QWidget):
         splitter = QSplitter(self)
         splitter.setOrientation(Qt.Horizontal)
 
-#        left = QFrame(splitter)
-#        left.setFrameShape(QFrame.StyledPanel)
-#        left.setMaximumWidth(200)
-#        left.setMinimumWidth(150)
-#        left.setStyleSheet("background-color: #a3c2c2; border: none; border-radius: 5px;")
-
-#        iconLabel = QLabel(left)
-#        pixmap = QPixmap("/Users/teofanamoisi/Desktop/icon.png")
-#        iconLabel.setPixmap(pixmap.scaledToWidth(150))
-#        iconLabel.resize(150, 50)
-
-
-#        self.leftLayout = QHBoxLayout(left)
-#        self.gridLayout = QGridLayout()
-
         right = QFrame(splitter)
         right.setFrameShape(QFrame.StyledPanel)
         right.setStyleSheet("background-color: white; border: none; border-radius: 5px;")
 
         self.rightLayout = QHBoxLayout(right)
 
-        #add buttons
         self.capture = Capture()
         self.startDemo()
         self.sideMenu = SideMenu(splitter, self)
-
-        self.sideMenu.quit_button.clicked.connect(self.quitApp)
         self.sideMenu.start_button.clicked.connect(self.capture.startCapture)
         self.sideMenu.end_button.clicked.connect(self.capture.endCapture)
+        self.sideMenu.quit_button.clicked.connect(self.quitApp)
+        self.sideMenu.checkBox.stateChanged.connect(lambda:self.capture.hideLandmarks(self.checkBox))
 
-#        self.start_button = QPushButton('Start', left)
-#        self.start_button.resize(150, 50)
-#        self.start_button.move(0, 50)
-#        self.start_button.clicked.connect(self.capture.startCapture)
-#        self.start_button.setStyleSheet(open('styleButtons.css').read())
-#        self.start_button.setObjectName('firstButton')
-#        self.start_button.setProperty('class', 'generalButtons')
-
-#        self.end_button = QPushButton('End', left)
-#        self.end_button.clicked.connect(self.capture.endCapture)
-#        self.end_button.resize(150, 50)
-#        self.end_button.move(0, 100)
-#        self.end_button.setStyleSheet(open('styleButtons.css').read())
-#        self.end_button.setProperty('class', 'generalButtons')
-#        self.end_button.setProperty('id', 'endID')
-
-#        self.quit_button = QPushButton('Quit', left)
-#        self.quit_button.clicked.connect(self.quitApp)
-#        self.quit_button.resize(150, 50)
-#        self.quit_button.move(0, 150)
-#        self.quit_button.setStyleSheet(open('styleButtons.css').read())
-#        self.quit_button.setProperty('class', 'generalButtons')
-#        self.quit_button.setProperty('id', 'quitID')
-
-#        self.checkBox = QCheckBox("Hide landmarks", left)
-#        self.checkBox.setChecked(False)
-#        self.checkBox.resize(150, 50)
-#        self.checkBox.move(0, 250)
-#        self.checkBox.stateChanged.connect(lambda:self.capture.hideLandmarks(self.checkBox))
-
-#        self.leftLayout.addLayout(self.gridLayout)
-
-#        splitter.addWidget(left)
         splitter.addWidget(right)
         hbox.addWidget(splitter)
 

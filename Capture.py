@@ -38,14 +38,9 @@ class Capture():
             rect = rects[0]
             self.INPUT_MODE = True
 
-            # Determine the facial landmarks for the face region, then
-            # convert the facial landmark (x, y)-coordinates to a NumPy
-            # array
             shape = self.predictor(gray, rect)
             shape = face_utils.shape_to_np(shape)
 
-            # Extract the left and right eye coordinates, then use the
-            # coordinates to compute the eye aspect ratio for both eyes
             mouth = shape[self.constants.mStart:self.constants.mEnd]
             leftEye = shape[self.constants.lStart:self.constants.lEnd]
             rightEye = shape[self.constants.rStart:self.constants.rEnd]
@@ -54,13 +49,8 @@ class Capture():
             temp = leftEye
             leftEye = rightEye
             rightEye = temp
-
-            # Average the mouth aspect ratio together for both eyes
-
             nose_point = (nose[3, 0], nose[3, 1])
 
-            # Compute the convex hull for the left and right eye, then
-            # visualize each of the eyes
             mouthHull = cv2.convexHull(mouth)
             leftEyeHull = cv2.convexHull(leftEye)
             rightEyeHull = cv2.convexHull(rightEye)
@@ -108,8 +98,7 @@ class Capture():
                 cv2.putText(frame, 'SCROLL MODE IS ON!', (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.constants.RED_COLOR, 2)
 
             cv2.imshow("Frame", frame)
-            return frame
-            #scroll_mode = self.movesDetector.detectBlink(leftEye, rightEye)
+            #return frame
 
         else:
             cv2.imshow("Frame", frame)
@@ -118,21 +107,17 @@ class Capture():
     def startCapture(self):
         print("pressed start")
         self.capturing = True
-        cap = self.c
         while(self.capturing):
-            ret, frame = cap.read()
+            ret, frame = self.c.read()
             frame = cv2.flip(frame, 1)
-
-            frame = self.showLandmarks(frame)
+            self.showLandmarks(frame)
             cv2.waitKey(5)
         cv2.destroyAllWindows()
 
     def endCapture(self):
         print("pressed End")
         self.capturing = False
-        cap = self.c
         cv2.destroyAllWindows()
-        cap.release()
 
     def hideLandmarks(self, checkBox):
         if checkBox.isChecked():
