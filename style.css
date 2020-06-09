@@ -1,0 +1,17 @@
+.buttons {
+    background-color: #a3c2c2;
+    font-weight: bold;
+    color: black;
+    width: 150px;
+    border: none;
+}
+
+.buttons:hover {
+    background-color: #75a3a3;
+}
+
+.checkbox {
+    background-color: #a3c2c2;
+    font-weight: bold;
+    color: black;
+}

@@ -15,13 +15,13 @@ class Capture():
     def __init__(self):
         self.capturing = False
         self.c = cv2.VideoCapture(0)
-        self.shape_predictor = "/Users/teofanamoisi/Desktop/TrainShapePredictor/model/predictor6666.dat"
+        self.constants = Constants()
+        self.shape_predictor = self.constants.shape_predictor
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(self.shape_predictor)
         self.movesDetector = DetectMoves()
         self.ANCHOR_POINT = (0, 0)
         self.measureUtils = MeasureUtils()
-        self.constants = Constants()
         self.INPUT_MODE = False
         self.SCROLL_MODE = False
         self.landmarks_on = True
@@ -29,11 +29,8 @@ class Capture():
     def showLandmarks(self, frame):
         frame = imutils.resize(frame, width=self.constants.CAM_W, height=self.constants.CAM_H)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Detect faces in the grayscale frame
         rects = self.detector(gray, 0)
 
-        # Loop over the face detections
         if len(rects) > 0:
             rect = rects[0]
             self.INPUT_MODE = True
@@ -73,7 +70,7 @@ class Capture():
                 cv2.rectangle(frame, (x - self.constants.WIDTH, y - self.constants.HEIGHT), (x + self.constants.WIDTH, y + self.constants.HEIGHT), self.constants.GREEN_COLOR, 2)
                 cv2.line(frame, self.constants.ANCHOR_POINT, nose_point, self.constants.BLUE_COLOR, 2)
 
-                self.movesDetector.detectBlink(leftEye, rightEye)
+                self.movesDetector.detectBlinkCos(leftEye, rightEye)
 
                 self.SCROLL_MODE = self.movesDetector.detectScroll(self.SCROLL_MODE, mouth)
 
@@ -96,9 +93,7 @@ class Capture():
 
             if self.SCROLL_MODE:
                 cv2.putText(frame, 'SCROLL MODE IS ON!', (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.constants.RED_COLOR, 2)
-
             cv2.imshow("Frame", frame)
-            #return frame
 
         else:
             cv2.imshow("Frame", frame)

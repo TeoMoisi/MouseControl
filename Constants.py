@@ -39,6 +39,10 @@ class Constants:
         self.SCROLL_MODE = False
         self.EYE_COUNTER = 0
 
+        # cos threshold values
+        self.COS_AR_THRESH = 0.82
+        self.WINK_COS_DIFF_THRESH = 0.22
+
         # rectangle Constants
         self.WIDTH = 50
         self.HEIGHT = 35
@@ -51,3 +55,12 @@ class Constants:
         self.MOUTH_AR_THRESH = 0.25
         self.MOUTH_AR_CONSECUTIVE_FRAMES = 15
         self.MOUTH_COUNTER = 0
+
+        # shape predictor path
+        self.shape_predictor = "/Users/teofanamoisi/Desktop/TrainShapePredictor/model/predictor6666.dat"
+
+        # logo icon path
+        self.logo_icon = "/Users/teofanamoisi/Desktop/logo.png"
+
+        # dmeo filename
+        self.demo_filename = "/Users/teofanamoisi/Desktop/ImaginiLicenta/Demo.mov"
