@@ -18,24 +18,41 @@ class MainWindow(QWidget):
     def __init__(self):
         QWidget.__init__(self)
         self.setWindowTitle('Facial Cursor')
-        self.initUI()
+        self._init_ui()
 
-    def quitApp(self):
+    def __quit_app(self):
         print("pressed Quit")
         QApplication.quit()
 
-    def initUI(self):
+    def __start_capture(self):
+        print("Start capture")
+        self.capture = Capture()
+        self.capture.startCapture()
+
+    def __end_capture(self):
+        if self.capture == None:
+            return
+        else:
+            self.capture.endCapture()
+
+    def __hide_landmarks(self):
+        if self.capture == None:
+            return
+        else:
+            return self.capture.hideLandmarks(self.sideMenu.check_box)
+
+    def _init_ui(self):
         hbox = QHBoxLayout(self)
         splitter = QSplitter(self)
         splitter.setOrientation(Qt.Horizontal)
 
-        self.capture = Capture()
+        self.capture = None
 
         self.sideMenu = SideMenu(splitter, self)
-        self.sideMenu.start_button.clicked.connect(self.capture.startCapture)
-        self.sideMenu.end_button.clicked.connect(self.capture.endCapture)
-        self.sideMenu.quit_button.clicked.connect(self.quitApp)
-        self.sideMenu.checkBox.stateChanged.connect(lambda:self.capture.hideLandmarks(self.sideMenu.checkBox))
+        self.sideMenu.start_button.clicked.connect(self.__start_capture)
+        self.sideMenu.end_button.clicked.connect(self.__end_capture)
+        self.sideMenu.quit_button.clicked.connect(self.__quit_app)
+        self.sideMenu.check_box.stateChanged.connect(lambda:self.__hide_landmarks())
 
         self.demoPlayer = DemoPlayer(splitter, self)
 

@@ -14,7 +14,7 @@ class MeasureUtils:
         ear = (firstDistance + secondDistance) / (2.0 * thirdDistance)
         return ear
 
-    def measureCosin(self, eye):
+    def measure_cosine(self, eye):
         a = np.linalg.norm(eye[2] - eye[4])
         b = np.linalg.norm(eye[3] - eye[4])
         c = np.linalg.norm(eye[2] - eye[3])
@@ -23,9 +23,10 @@ class MeasureUtils:
         return cosinA
 
 
-    def direction(self, nose_point, anchor_point, w, h, multiple=1):
+    def direction(self, nose_point, anchor_point, w, h):
         nx, ny = nose_point
         x, y = anchor_point
+        multiple = 1
 
         if nx > x + multiple * w:
             return 'right'

@@ -9,24 +9,21 @@ class SideMenu(QWidget):
     def __init__(self, splitter, parent=None):
         super(SideMenu, self).__init__(parent)
         self.capture = Capture()
-        self.constants = Constants()
-        self.splitter = splitter
-        self.init_menu_buttons()
+        self._constants = Constants()
+        self._splitter = splitter
+        self._init_menu_buttons()
 
-    def init_menu_buttons(self):
-        left = QFrame(self.splitter)
+    def _init_menu_buttons(self):
+        left = QFrame(self._splitter)
         left.setFrameShape(QFrame.StyledPanel)
         left.setFixedWidth(150)
         left.setStyleSheet("background-color: #a3c2c2; border: none; border-radius: 5px;")
 
         iconLabel = QLabel(left)
-        pixmap = QPixmap("/Users/teofanamoisi/Desktop/logo.png")
+        pixmap = QPixmap(self._constants.logo_icon)
         iconLabel.setPixmap(pixmap.scaledToWidth(100))
         iconLabel.setContentsMargins(20, 0, 0, 0)
         iconLabel.resize(150, 50)
-
-        self.leftLayout = QHBoxLayout(left)
-        self.gridLayout = QGridLayout()
 
         self.start_button = QPushButton('Start', left)
         self.start_button.resize(150, 50)
@@ -46,13 +43,11 @@ class SideMenu(QWidget):
         self.quit_button.setStyleSheet(open('style.css').read())
         self.quit_button.setProperty('class', 'buttons')
 
-        self.checkBox = QCheckBox("Hide landmarks", left)
-        self.checkBox.setStyleSheet(open('style.css').read())
-        self.checkBox.setProperty('class', 'checkbox')
-        self.checkBox.setChecked(False)
-        self.checkBox.resize(150, 50)
-        self.checkBox.move(15, 250)
+        self.check_box = QCheckBox("Hide landmarks", left)
+        self.check_box.setStyleSheet(open('style.css').read())
+        self.check_box.setProperty('class', 'checkbox')
+        self.check_box.setChecked(False)
+        self.check_box.resize(150, 50)
+        self.check_box.move(15, 250)
 
-        self.leftLayout.addLayout(self.gridLayout)
-
-        self.splitter.addWidget(left)
+        self._splitter.addWidget(left)
